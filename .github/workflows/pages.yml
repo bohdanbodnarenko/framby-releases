@@ -1,0 +1,65 @@
+# Framby releases — publish the Sparkle appcast on GitHub Pages (docs/12 §9 in the private
+# source repository).
+#
+# This workflow lives in the PUBLIC repository bohdanbodnarenko/framby-releases, which holds
+# only appcast.xml, this landing page and the DMGs (as GitHub Releases assets). The source
+# is private, and Sparkle cannot download from a private repository's releases.
+#
+# The feed installed copies read, https://framby.app/appcast.xml,
+# is this repository's appcast.xml, deployed as it is on main. Committing a release's
+# appcast entry to main is therefore the publish: publish the draft release that holds its
+# DMG first, or Sparkle offers a download that is not there yet.
+#
+# The site is the appcast and one static page: no scripts, no assets from elsewhere, no
+# analytics. Pages must be enabled once, by the owner: Settings ▸ Pages ▸ Source: GitHub
+# Actions. Until then the deploy step fails, by design.
+
+name: Pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - appcast.xml
+      - index.html
+      - .github/workflows/pages.yml
+  workflow_dispatch:
+
+# One deploy at a time, and never cancel one halfway: the newest push still deploys after it.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  deploy:
+    name: Deploy the appcast
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Check the appcast is well-formed XML
+        run: python3 -c 'import sys, xml.etree.ElementTree as tree; tree.parse(sys.argv[1])' appcast.xml
+
+      - name: Assemble the site
+        run: |
+          mkdir -p _site
+          cp appcast.xml index.html _site/
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v5

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Framby's Sparkle appcast.
+
+    Empty until the first signed release. `Scripts/release.sh` appends an item per
+    release, each one signed with the EdDSA private key that lives in the maintainer's
+    Keychain; the matching public key is in the app's Info.plist as SUPublicEDKey.
+
+    Sparkle refuses an update whose signature does not verify, which is what makes the
+    update channel safe to be the app's only network connection.
+
+    Installed copies read it from the GitHub Pages site of the public releases-only
+    repository bohdanbodnarenko/framby-releases, at the <link> below: its
+    .github/workflows/pages.yml deploys that repository's copy of this file on every push
+    to its main. The DMGs each item names are that repository's GitHub Releases assets,
+    tagged v<version>-b<build>. The source repository keeps this copy, which release.sh
+    appends to; copy it into framby-releases to publish (docs/12 §9).
+-->
+<rss version="2.0"
+     xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Framby</title>
+    <link>https://framby.app/appcast.xml</link>
+    <description>Updates for Framby, the native macOS screen-capture app.</description>
+    <language>en</language>
+  </channel>
+</rss>
