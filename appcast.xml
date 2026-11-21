@@ -24,5 +24,17 @@
     <link>https://framby.app/appcast.xml</link>
     <description>Updates for Framby, the native macOS screen-capture app.</description>
     <language>en</language>
+    <item>
+      <title>Version 0.9.0</title>
+      <pubDate>Sat, 21 Nov 2026 17:11:10 +0000</pubDate>
+      <sparkle:version>959</sparkle:version>
+      <sparkle:shortVersionString>0.9.0</sparkle:shortVersionString>
+      <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
+      <sparkle:channel>beta</sparkle:channel>
+      <enclosure url="https://github.com/bohdanbodnarenko/framby-releases/releases/download/v0.9.0-b959/Framby-0.9.0.dmg"
+                 type="application/octet-stream"
+                 sparkle:edSignature="3yKni8PqFuY3PVVErPfIIsic4L+jDMiqFaKnnO3Ju17PBBwV0v2sJXFgCi1QH0Z+LBkHDV3JlSPUg6lNKYABBw=="
+                 length="13761795" />
+    </item>
   </channel>
 </rss>
